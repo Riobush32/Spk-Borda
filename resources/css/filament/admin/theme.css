@@ -1,0 +1,19 @@
+@import '/vendor/malzariey/filament-lexical-editor/resources/css/index.css';
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt !important;
+    }
+    .no-print, .filament-header, .filament-sidebar {
+        display: none !important;
+    }
+    .filament-main, .filament-main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}

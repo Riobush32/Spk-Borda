@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Resmi Desa BANDAR LAMA</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Google untuk tampilan lebih baik -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header/Navbar -->
+    <header class="bg-green-700 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo & Nama Desa -->
+            <div class="flex items-center space-x-2">
+                <img src="http://127.0.0.1:8000//storage/images/berita/01JVVPW0D1YQT4AJ3YSHKY52QB.jpg/image/labura.png" alt="Logo Desa" class="h-12">
+                <div>
+                    <h1 class="text-xl font-bold">DESA BANDAR LAMA</h1>
+                    <p class="text-sm">Kecamatan Kualuh Selatan, Kabupaten Labuhanbatu Utara</p>
+                </div>
+            </div>
+
+            <!-- Menu Navigasi -->
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="http://127.0.0.1:8000//storage/images/berita/01JVVPW0D1YQT4AJ3YSHKY52QB.jpg" class="hover:text-yellow-300 font-medium">Beranda</a></li>
+                    <li><a href="http://127.0.0.1:8000//storage/images/berita/01JVVPW0D1YQT4AJ3YSHKY52QB.jpg/profil-desa" class="hover:text-yellow-300">Profil Desa</a></li>
+                    
+                    <li><a href="http://127.0.0.1:8000//storage/images/berita/01JVVPW0D1YQT4AJ3YSHKY52QB.jpg/berita" class="hover:text-yellow-300">Berita</a></li>
+                    <li><a href="/admin" class="hover:text-yellow-300">Login</a></li>
+                    
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+   <!-- Hero Section -->
+    <section class="bg-green-600 text-white py-12">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-6 md:mb-0">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Selamat Datang di Website Desa Bandar Lama</h2>
+                <p class="mb-6">Desa yang maju, mandiri, dan berbudaya.</p>
+                <a href="http://127.0.0.1:8000//storage/images/berita/01JVVPW0D1YQT4AJ3YSHKY52QB.jpg/profil-desa"
+                    class="bg-yellow-400 text-green-800 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300">Lihat
+                    Profil Desa</a>
+            </div>
+            <div class="md:w-1/2">
+                <img src="http://127.0.0.1:8000//storage/images/berita/01JVVPW0D1YQT4AJ3YSHKY52QB.jpg/image/desa.png" alt="Desa Contoh" class="rounded-lg shadow-lg">
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    
+
+    <!-- Berita & Pengumuman -->
+    <section class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-8 text-green-800">Berita & Pengumuman Terkini</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Berita 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://via.placeholder.com/400x200" alt="Berita 1" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <span class="text-sm text-green-600">12 Mei 2024</span>
+                        <h3 class="font-bold text-lg my-2">Pelaksanaan Gotong Royong Desa</h3>
+                        <p class="text-gray-600">Akan dilaksanakan gotong royong membersihkan lingkungan desa pada hari
+                            Minggu, 20 Mei 2024.</p>
+                        <a href="#" class="text-green-600 font-medium mt-2 inline-block hover:text-green-800">Baca
+                            Selengkapnya →</a>
+                    </div>
+                </div>
+                <!-- Berita 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://via.placeholder.com/400x200" alt="Berita 2" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <span class="text-sm text-green-600">10 Mei 2024</span>
+                        <h3 class="font-bold text-lg my-2">Pembagian Bantuan Sosial</h3>
+                        <p class="text-gray-600">Pemerintah desa akan membagikan bantuan sosial untuk warga yang
+                            membutuhkan.</p>
+                        <a href="#" class="text-green-600 font-medium mt-2 inline-block hover:text-green-800">Baca
+                            Selengkapnya →</a>
+                    </div>
+                </div>
+                <!-- Berita 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://via.placeholder.com/400x200" alt="Berita 3" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <span class="text-sm text-green-600">5 Mei 2024</span>
+                        <h3 class="font-bold text-lg my-2">Pelatihan Kewirausahaan</h3>
+                        <p class="text-gray-600">Desa menyelenggarakan pelatihan kewirausahaan untuk pemuda-pemudi desa.
+                        </p>
+                        <a href="#" class="text-green-600 font-medium mt-2 inline-block hover:text-green-800">Baca
+                            Selengkapnya →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">Lihat Semua
+                    Berita</a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-green-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Desa Contoh</h3>
+                    <p>Jl. Raya Desa Contoh No. 123<br>Kecamatan Indah, Kabupaten Maju<br>Kode Pos: 12345</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Kontak Kami</h3>
+                    <p>Email: info@desacontoh.id<br>Telepon: (021) 123-4567<br>WhatsApp: 0812-3456-7890</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-300">Profil Desa</a></li>
+                        <li><a href="#" class="hover:text-yellow-300">Layanan Administrasi</a></li>
+                        <li><a href="#" class="hover:text-yellow-300">Berita & Pengumuman</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-green-700 mt-8 pt-6 text-center">
+                <p>&copy; 2024 Desa Contoh. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
