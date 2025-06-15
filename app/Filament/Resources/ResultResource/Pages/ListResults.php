@@ -26,7 +26,7 @@ class ListResults extends ListRecords
                 ->icon('heroicon-o-clipboard-document-list')
                 ->color(Color::Indigo)
                 ->url(fn(): string => PrintReport::getUrl()),
-            Actions\Action::make('Proccess Result')
+            Actions\Action::make('Process Result')
                 ->icon('heroicon-o-variable')
                 ->color('primary')
                 ->action(function () {
@@ -76,6 +76,12 @@ class ListResults extends ListRecords
                                 'ranking' => $result['rank'],
                             ]
                         );
+                    }
+                    $totalResults = Result::sum('result');
+                    $dataResults = Result::all();
+                    foreach ($dataResults as $data) {
+                        $nilai = $data->result / $totalResults;
+                        $data->update(['nilai' => $nilai]);
                     }
                 }),
         ];

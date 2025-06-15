@@ -29,7 +29,7 @@ class PrintReport extends Page
     // Data untuk laporan (contoh)
     public function getReportData(): array
     {
-        $results=Result::all();
+        $results=Result::orderBy('ranking', 'asc')->get();
         $polls = Poll::all();
         return [
             'nomor_laporan' => '123/DP/VI/2024',
