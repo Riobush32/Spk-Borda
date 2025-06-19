@@ -21,9 +21,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Malzariey\FilamentLexicalEditor\Enums\ToolbarItem;
 use App\Filament\Resources\NewsResource\RelationManagers;
 use Malzariey\FilamentLexicalEditor\FilamentLexicalEditor;
+use Hexters\HexaLite\HasHexaLite;
 
 class NewsResource extends Resource
 {
+    use HasHexaLite;
     protected static ?string $model = News::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -171,6 +173,20 @@ class NewsResource extends Resource
             'index' => Pages\ListNews::route('/'),
             'create' => Pages\CreateNews::route('/create'),
             'edit' => Pages\EditNews::route('/{record}/edit'),
+        ];
+    }
+    public static function canAccess(): bool
+    {
+        return hexa()->can('news.index'); // ✅ Kontrol visibilitas
+    }
+
+    public static function defineGates(): array
+    {
+        return [
+            'news.index' => 'Melihat daftar news',
+            'news.create' => 'Menambah news',
+            'news.edit' => 'Mengedit news',
+            'news.delete' => 'Menghapus news',
         ];
     }
 }

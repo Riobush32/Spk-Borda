@@ -20,6 +20,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\Resources\PollResource\Widgets\PollMatrix;
 use App\Filament\Resources\VoterResource\Widgets\VoterCount;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Hexters\HexaLite\HexaLite;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->registration()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -59,6 +61,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->plugins([
+                HexaLite::make(),
             ]);
     }
 }

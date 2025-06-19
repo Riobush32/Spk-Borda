@@ -12,9 +12,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Hexters\HexaLite\HasHexaLite;
 
 class VoterResource extends Resource
 {
+    use HasHexaLite;
     protected static ?string $model = Voter::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
@@ -70,4 +72,20 @@ class VoterResource extends Resource
             'edit' => Pages\EditVoter::route('/{record}/edit'),
         ];
     }
+
+    public static function canAccess(): bool
+    {
+        return hexa()->can('voter.index'); // ✅ Kontrol visibilitas
+    }
+
+    public static function defineGates(): array
+    {
+        return [
+            'voter.index' => 'Melihat daftar voter',
+            'voter.create' => 'Menambah voter',
+            'voter.edit' => 'Mengedit voter',
+            'voter.delete' => 'Menghapus voter',
+        ];
+    }
+    
 }

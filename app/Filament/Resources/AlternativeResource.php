@@ -14,14 +14,17 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AlternativeResource\Pages;
 use Illuminate\Validation\Rule;
 use App\Filament\Resources\AlternativeResource\RelationManagers;
+use Hexters\HexaLite\HasHexaLite;
 
 class AlternativeResource extends Resource
 {
+    use HasHexaLite;
     protected static ?string $model = Alternative::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard';
     protected static ?string $navigationGroup = 'Data';
 
+    
 
     public static function form(Form $form): Form
     {
@@ -138,6 +141,20 @@ class AlternativeResource extends Resource
             'index' => Pages\ListAlternatives::route('/'),
             'create' => Pages\CreateAlternative::route('/create'),
             'edit' => Pages\EditAlternative::route('/{record}/edit'),
+        ];
+    }
+    public static function canAccess(): bool
+    {
+        return hexa()->can('alternative.index'); // ✅ Kontrol visibilitas
+    }
+
+    public static function defineGates(): array
+    {
+        return [
+            'alternative.index' => 'Melihat daftar alternatif',
+            'alternative.create' => 'Menambah alternatif',
+            'alternative.edit' => 'Mengedit alternatif',
+            'alternative.delete' => 'Menghapus alternatif',
         ];
     }
 }

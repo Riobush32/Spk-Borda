@@ -17,9 +17,11 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PollResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PollResource\RelationManagers;
+use Hexters\HexaLite\HasHexaLite;
 
 class PollResource extends Resource
 {
+    use HasHexaLite;
     protected static ?string $model = Poll::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
@@ -127,6 +129,21 @@ class PollResource extends Resource
             'index' => Pages\ListPolls::route('/'),
             'create' => Pages\CreatePoll::route('/create'),
             'edit' => Pages\EditPoll::route('/{record}/edit'),
+        ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return hexa()->can('poll.index'); // ✅ Kontrol visibilitas
+    }
+
+    public static function defineGates(): array
+    {
+        return [
+            'poll.index' => 'Melihat daftar poll',
+            'poll.create' => 'Menambah poll',
+            'poll.edit' => 'Mengedit poll',
+            'poll.delete' => 'Menghapus poll',
         ];
     }
 }

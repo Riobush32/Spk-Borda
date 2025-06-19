@@ -12,9 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Hexters\HexaLite\HasHexaLite;
+
 
 class ResultResource extends Resource
 {
+    use HasHexaLite;
     protected static ?string $model = Result::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -70,6 +73,19 @@ class ResultResource extends Resource
             'create' => Pages\CreateResult::route('/create'),
             'edit' => Pages\EditResult::route('/{record}/edit'),
             'print' => Pages\PrintReport::route('/print'), // Tambahkan ini
+        ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return hexa()->can('result.index'); // ✅ Kontrol visibilitas
+    }
+
+    public static function defineGates(): array
+    {
+        return [
+            'result.index' => 'Melihat daftar result',
+            'result.print_report' => 'Print Laporan',
         ];
     }
 }
