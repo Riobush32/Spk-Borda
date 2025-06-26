@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
 use Hexters\HexaLite\HasHexaLite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PollResource\Pages;
@@ -163,6 +164,18 @@ class PollResource extends Resource
             'create' => Pages\CreatePoll::route('/create'),
             'edit' => Pages\EditPoll::route('/{record}/edit'),
         ];
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        // Hanya voter yang membuat voting yang bisa edit
+        return Auth::user()->id === $record->voter->user_id;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        // Sama seperti edit, hanya voter pemilik
+        return Auth::user()->id === $record->voter->user_id;
     }
 
     public static function canAccess(): bool
