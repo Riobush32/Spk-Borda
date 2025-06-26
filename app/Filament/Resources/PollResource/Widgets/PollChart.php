@@ -28,7 +28,7 @@ class PollChart extends ChartWidget
 
         // Alternatif jadi sumbu X (labels)
         $alternatives = $polls->pluck('alternative.alternative_name')->unique()->values();
-        $voters = $polls->pluck('voter.voter_name')->unique()->values();
+        $voters = $polls->pluck('voter.user.name')->unique()->values();
 
         $datasets = [];
 
@@ -39,7 +39,7 @@ class PollChart extends ChartWidget
                 // Ambil ranking dari voter terhadap alternative
                 $ranking = $polls->firstWhere(
                     fn($p) =>
-                    $p->voter->voter_name === $voter &&
+                    $p->voter->user->name === $voter &&
                         $p->alternative->alternative_name === $alt
                 )?->ranking;
 
