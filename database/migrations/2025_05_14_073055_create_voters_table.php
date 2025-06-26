@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('voters', function (Blueprint $table) {
             $table->id();
-            $table->string('voter_name');
+            $table->foreignId('user_id')->constrained(
+                table: 'users',
+                indexName: 'user_voter_id_foreign',
+            )->onDelete('cascade');
             $table->string('voter_code')->unique();
             $table->integer('voter_value');
             $table->timestamps();

@@ -13,7 +13,7 @@ class PollMatrix extends Widget
     {
         $polls = Poll::with(['voter', 'alternative'])->get();
 
-        $voters = $polls->pluck('voter.voter_name')->unique()->values();
+        $voters = $polls->pluck('voter.user.name')->unique()->values();
         $alternatives = $polls->pluck('alternative.alternative_name')->unique()->values();
 
         $matrix = [];
@@ -21,7 +21,7 @@ class PollMatrix extends Widget
         foreach ($alternatives as $alt) {
             $row = ['alternative' => $alt];
             foreach ($voters as $voter) {
-                $ranking = $polls->firstWhere(fn($p) => $p->voter->voter_name === $voter && $p->alternative->alternative_name === $alt)?->ranking;
+                $ranking = $polls->firstWhere(fn($p) => $p->voter->user->name === $voter && $p->alternative->alternative_name === $alt)?->ranking;
                 $row[$voter] = $ranking ?? '-';
             }
             $matrix[] = $row;

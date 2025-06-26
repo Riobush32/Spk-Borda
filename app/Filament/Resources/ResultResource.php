@@ -44,6 +44,8 @@ class ResultResource extends Resource
                     ->label('Ranking')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('result')
+                    ->label('poin'),
+                Tables\Columns\TextColumn::make('nilai')
                     ->label('Nilai'),
             ])
             ->filters([

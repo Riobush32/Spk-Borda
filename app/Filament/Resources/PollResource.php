@@ -13,11 +13,13 @@ use Filament\Tables\Table;
 use App\Models\Alternative;
 use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
+use Hexters\HexaLite\HasHexaLite;
+use Illuminate\Support\Facades\Auth;
+use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PollResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PollResource\RelationManagers;
-use Hexters\HexaLite\HasHexaLite;
 
 class PollResource extends Resource
 {
@@ -33,7 +35,11 @@ class PollResource extends Resource
             ->schema([
                 Forms\Components\Select::make('voter_id')
                     ->label('Voter')
-                    ->options(Voter::all()->pluck('voter_name', 'id')->toArray())
+                    ->options(Voter::with('user')
+                        ->where('user_id', Auth::user()->id) // Hanya menampilkan voter yang terkait dengan user yang sedang login
+                        ->get()
+                        ->pluck('user.name', 'id') // 'user.name' adalah nama user dari relasi
+                        ->toArray())
                     ->searchable()
                     ->required()
                     ->live()
@@ -41,50 +47,77 @@ class PollResource extends Resource
 
                 Forms\Components\Select::make('alternative_id')
                     ->label('Alternative')
-                    ->options(function (Get $get): array {
-                        $voterId = $get('voter_id');
-
-                        if (!$voterId) {
+                    ->options(function (Get $get, \Filament\Forms\Get $form, $livewire): array {
+                        // Jika sedang edit, tampilkan semua alternative
+                        if (method_exists($livewire, 'getRecord') && $livewire->getRecord()) {
                             return Alternative::all()
-                                ->pluck('alternative_name', 'id')
+                                ->mapWithKeys(function ($alt) {
+                                    return [
+                                        $alt->id => $alt->alternative_name . ' - ' . $alt->alternative_code,
+                                    ];
+                                })
                                 ->toArray();
                         }
 
+                        $voterId = $get('voter_id');
+
+                        // Jika belum ada voter_id yang dipilih
+                        if (!$voterId) {
+                            return Alternative::all()
+                                ->mapWithKeys(function ($alt) {
+                                    return [
+                                        $alt->id => $alt->alternative_name . ' - ' . $alt->alternative_code,
+                                    ];
+                                })
+                                ->toArray();
+                        }
+
+                        // Jika voter_id sudah dipilih, filter alternative yang belum dipilih voter tsb
                         $selectedAlternatives = Poll::where('voter_id', $voterId)
                             ->pluck('alternative_id')
                             ->toArray();
 
                         return Alternative::whereNotIn('id', $selectedAlternatives)
                             ->get()
-                            ->pluck('alternative_name', 'id')
-                            ->toArray();
-                    })
-                    ->searchable()
-                    ->required()
-                    ->disabled(fn(Get $get): bool => !$get('voter_id'))
-                    ->getOptionLabelsUsing(function (array $values): array {
-                        return Alternative::whereIn('id', $values)
-                            ->get()
-                            ->pluck('alternative_name', 'id')
+                            ->mapWithKeys(function ($alt) {
+                                return [
+                                    $alt->id => $alt->alternative_name . ' - ' . $alt->alternative_code,
+                                ];
+                            })
                             ->toArray();
                     }),
                 Forms\Components\TextInput::make('ranking')
                     ->label('Ranking')
                     ->numeric()
                     ->required()
-                    ->rules([
-                        function (Get $get) {
-                            return function (string $attribute, $value, Closure $fail) use ($get) {
-                                $maxRanking = Poll::where('voter_id', $get('voter_id'))->max('ranking');
+                    ->disabled(fn($livewire) => $livewire instanceof EditRecord) // Disable saat edit
+                    ->rules(function (Get $get, $state, $livewire) {
+                        // Jika sedang edit, hilangkan rules
+                        if ($livewire instanceof EditRecord) {
+                            return []; // Tidak ada validasi saat edit
+                        }
+
+                        return [
+                            function (string $attribute, $value, Closure $fail) use ($get) {
+                                $voterId = $get('voter_id');
+
+                                if (!$voterId) {
+                                    $fail('Pilih voter terlebih dahulu.');
+                                    return;
+                                }
+
+                                $maxRanking = Poll::where('voter_id', $voterId)->max('ranking') ?? 0;
+
                                 if ($value > $maxRanking + 1) {
                                     $fail("Ranking harus berurutan tanpa gap. Ranking tertinggi saat ini: {$maxRanking}");
                                 }
+
                                 if ($value <= $maxRanking) {
-                                    $fail('ranking saat ini adalah ' . $maxRanking+1);
+                                    $fail('Ranking harus lebih besar dari ranking sebelumnya (' . ($maxRanking) . ')');
                                 }
-                            };
-                        }
-                    ]),
+                            },
+                        ];
+                    })
             ]);
     }
 
@@ -92,15 +125,15 @@ class PollResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('voter.voter_name')
-                ->sortable()
-                ->searchable(),
+                Tables\Columns\TextColumn::make('voter.user.name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('alternative.alternative_name')
-                ->sortable()
-                ->searchable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('ranking')
-                ->sortable()
-                ->searchable()
+                    ->sortable()
+                    ->searchable()
             ])
             ->filters([
                 //

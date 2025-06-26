@@ -2,17 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\VoterResource\Pages;
-use App\Filament\Resources\VoterResource\RelationManagers;
-use App\Models\Voter;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use App\Models\Voter;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\Resource;
 use Hexters\HexaLite\HasHexaLite;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\VoterResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\VoterResource\RelationManagers;
 
 class VoterResource extends Resource
 {
@@ -25,7 +26,11 @@ class VoterResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('voter_name')->required(),
+                Forms\Components\Select::make('user_id')
+                    ->label('Voter')
+                    ->options(User::all()->pluck('name', 'id')->toArray())
+                    ->searchable()
+                    ->required(),
                 Forms\Components\TextInput::make('voter_code')->required(),
                 Forms\Components\TextInput::make('voter_value')
                     ->label('Value')
@@ -38,7 +43,7 @@ class VoterResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('voter_name')->searchable(),
+                Tables\Columns\TextColumn::make('user.name')->searchable(),
                 Tables\Columns\TextColumn::make('voter_code')->searchable(),
                 Tables\Columns\TextColumn::make('voter_value')
                     ->label('Value')
@@ -87,5 +92,4 @@ class VoterResource extends Resource
             'voter.delete' => 'Menghapus voter',
         ];
     }
-    
 }

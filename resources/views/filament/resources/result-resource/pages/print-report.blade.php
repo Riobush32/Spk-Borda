@@ -34,10 +34,11 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left border border-gray-400 print:text-xs">
                         <thead class="bg-gray-100">
-                            <tr>
+                            <tr class="text-center">
                                 <th class="border border-gray-400 px-3 py-2">No</th>
                                 <th class="border border-gray-400 px-3 py-2">Nama Alternatif</th>
-                                <th class="border border-gray-400 px-3 py-2">Skor</th>
+                                <th class="border border-gray-400 px-3 py-2">Poin</th>
+                                <th class="border border-gray-400 px-3 py-2">Nilai</th>
                                 <th class="border border-gray-400 px-3 py-2">Ranking</th>
                             </tr>
                         </thead>
@@ -47,6 +48,7 @@
                                     <td class="border border-gray-400 px-3 py-2 text-center">{{ $index + 1 }}</td>
                                     <td class="border border-gray-400 px-3 py-2">{{ $result->alternative->alternative_name }}</td>
                                     <td class="border border-gray-400 px-3 py-2 text-center">{{ $result->result }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-center">{{ $result->nilai }}</td>
                                     <td class="border border-gray-400 px-3 py-2 text-center">{{ $result->ranking }}</td>
                                 </tr>
                             @empty
